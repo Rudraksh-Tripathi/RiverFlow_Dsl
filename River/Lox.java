@@ -45,10 +45,12 @@ public class Lox {
         Scanner scanner = new Scanner(sourcing);
         List<Tokens> tokens = scanner.scanTokens();
 
-        for (Tokens IndivToken : tokens) {
-            System.out.println(IndivToken);
-        }
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parseExpression();
 
+        if (hadError) return;
+
+        System.out.println(new AstPrinter().print(expression));
     }
 
     private static void runFile(String path) throws IOException {
