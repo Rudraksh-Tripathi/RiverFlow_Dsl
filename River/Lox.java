@@ -1,4 +1,4 @@
-package River;
+package riverlang;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,50 +8,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-
-
 public class Lox {
+    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
-    private static final interpreter interpreter = new interpreter();
-
-    private static void report(int lineNum, String location, String msg){
-        System.err.println("lineNum " + lineNum);
-        System.err.println("location" + location);
-        System.err.println("message" + msg);
-        hadError = true;
-    }
-
-    static void error(int lineNum, String msg){
-        report(lineNum,"",msg);
-    }
-
-    
 
     public static void main(String[] args) throws IOException {
-        
-        if (args.length == 1){
-            runFile(args[0]);
-        }
-        else if (args.length > 1) {
-            System.out.println("use river's script");
+        if (args.length > 1) {
+            System.out.println("Usage: riverlang [script]");
             System.exit(64);
-        }
-        else {
+        } else if (args.length == 1) {
+            runFile(args[0]);
+        } else {
             runPrompt();
         }
-        
-    }
-
-    private static void run(String sourcing){
-        Scanner scanner = new Scanner(sourcing);
-        List<Tokens> tokens = scanner.scanTokens();
-
-        Parser parser = new Parser(tokens);
-        Expr expression = parser.parseExpression();
-
-        if (hadError) return;
-        interpreter.interpret(expression);  
     }
 
     private static void runFile(String path) throws IOException {
@@ -61,23 +31,42 @@ public class Lox {
         if (hadRuntimeError) System.exit(70);
     }
 
-    static void runtimeError(RunTimeError error) {
-        System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
-        hadRuntimeError = true;
-    }
-
     private static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        for(;;){
-
-            System.out.print(">");
+        for (;;) {
+            System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);
-            hadError = false; 
-
+            hadError = false;
         }
+    }
+
+    private static void run(String source) {
+        Scanner scanner = new Scanner(source);
+        List<Token> tokens = scanner.scanTokens();
+
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parseProgram();
+
+        if (hadError) return;
+
+        interpreter.interpret(statements);
+    }
+
+    static void error(int line, String message) {
+        report(line, "", message);
+    }
+
+    private static void report(int line, String where, String message) {
+        System.err.println("[line " + line + "] Error" + where + ": " + message);
+        hadError = true;
+    }
+
+    static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
+        hadRuntimeError = true;
     }
 }

@@ -1,9 +1,10 @@
-package River;
+package riverlang;
 
-class RunTimeError extends RuntimeException {
-    final Tokens token;
+/* A runtime error, thrown while evaluating an already-parsed tree. */
+class RuntimeError extends RuntimeException {
+    final Token token;
 
-    RunTimeError(Tokens token, String message) {
+    RuntimeError(Token token, String message) {
         super(message);
         this.token = token;
     }

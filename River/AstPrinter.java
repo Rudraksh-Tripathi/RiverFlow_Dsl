@@ -1,4 +1,13 @@
-package River;
+package riverlang;
+
+/*
+ * Prints an Expr tree as a fully bracketed string.
+ *
+ * Example: 
+ * googong + jerrabombarra becomes (+ googong jerrabombarra)
+ * Doesn't calculate any flow values, just shows the tree shape
+ * the brackets from the inside out shows the evaluation order
+ */
 
 class AstPrinter implements Expr.Visitor<String> {
 

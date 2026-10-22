@@ -1,5 +1,22 @@
-package River;
+package riverlang;
 
+/*
+ * These are all the different types of expressions our language can have.
+ * Basically comes from chapter 5 of the book (Representing Code). Instead
+ * of making one massive class that tries to handle every kind of
+ * expression, each kind gets its own tiny class instead. Then the
+ * Visitor interface is what lets us write things like the printer (and
+ * later the interpreter) without having to touch these classes again
+ * every time we add something new.
+ *
+ * Base Lox already has Binary, Grouping, Literal and Unary. On top of
+ * that we added two more for our own language:
+ *
+ * Variable - just points to a river/dam that's already been named,
+ * like googong
+ *
+ * WaterFlow - our actual flow literal, like flow[10ML @ 1 ~ 2]
+ */
 abstract class Expr {
     interface Visitor<R> {
         R visitBinaryExpr(Binary expr);
@@ -12,13 +29,13 @@ abstract class Expr {
 
     abstract <R> R accept(Visitor<R> visitor);
 
-    /** left OPERATOR right, e.g. googong + jerrabombarra */
+    // left OPERATOR right, like googong + jerrabombarra
     static class Binary extends Expr {
         final Expr left;
-        final Tokens operator;
+        final Token operator;
         final Expr right;
 
-        Binary(Expr left, Tokens operator, Expr right) {
+        Binary(Expr left, Token operator, Expr right) {
             this.left = left;
             this.operator = operator;
             this.right = right;
@@ -29,7 +46,7 @@ abstract class Expr {
         }
     }
 
-    /** ( expression ) */
+    // just something wrapped in brackets
     static class Grouping extends Expr {
         final Expr expression;
 
@@ -42,7 +59,7 @@ abstract class Expr {
         }
     }
 
-    /** A plain value: number, string, true/false, nil */
+    // a plain value - number, string, true, false, or nil
     static class Literal extends Expr {
         final Object value;
 
@@ -55,12 +72,12 @@ abstract class Expr {
         }
     }
 
-    /** OPERATOR right, e.g. -5 or !flag */
+    // OPERATOR right, like -5 or !flag
     static class Unary extends Expr {
-        final Tokens operator;
+        final Token operator;
         final Expr right;
 
-        Unary(Tokens operator, Expr right) {
+        Unary(Token operator, Expr right) {
             this.operator = operator;
             this.right = right;
         }
@@ -70,11 +87,11 @@ abstract class Expr {
         }
     }
 
-    /** A reference to a previously-declared name, e.g. googong */
+    // points back to a name that's already been declared, like googong
     static class Variable extends Expr {
-        final Tokens name;
+        final Token name;
 
-        Variable(Tokens name) {
+        Variable(Token name) {
             this.name = name;
         }
 
@@ -83,7 +100,7 @@ abstract class Expr {
         }
     }
 
-    /** A flow literal, e.g. flow[10ML @ 1 ~ 2] */
+    // a flow literal, like flow[10ML @ 1 ~ 2]
     static class WaterFlow extends Expr {
         final FlowLiteral value;
 
