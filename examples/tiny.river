@@ -1,0 +1,3 @@
+// The simplest possible program: one flow, printed.
+var only = flow[4ML @ 1 ~ 1];
+print(only);

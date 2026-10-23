@@ -1,0 +1,9 @@
+// A small river network with no dams. It's Devlin's Creek near Macquarie Uni.
+// Maher's Creek and Joe's Creek join together and flow through lower Joe's Creek.
+// That then joins the top of Devlin's Creek, and it all flows through lower Devlin's Creek to the output.
+var mahers_creek = flow[6ML @ 1 ~ 1];
+var joes_creek = flow[1.2ML @ 1 ~ 0];
+var lower_joes = flow[2.2ML @ 1 ~ 1] + mahers_creek + joes_creek;
+var devlins_creek = flow[8ML @ 1 ~ 2];
+var lower_devlins = flow[4ML @ 1 ~ 1] + lower_joes + devlins_creek;
+print(lower_devlins);

@@ -1,0 +1,22 @@
+// The Canberra river system.
+// The root rivers are googong, jerrabombarra and upper_molongolo.
+// googong flows into dam1 and then into queanbeyan.
+// central_molongolo is queanbeyan, upper_molongolo and jerrabombarra joined together,
+// and it flows through dam2 into lower_molongolo which is the output of the whole system.
+//
+// dam1 and dam2 are used here like they've already been declared, and they're connected with <-.
+// The grammar already supports <- so this file parses fine. See the grammar in the README.
+// It only fails when it runs, with an "undefined river or dam" runtime error.
+// That's because there is no dam { ... } declaration yet, so dam1 and dam2 never actually exist.
+// Adding dam declarations and making <- actually work when it runs is the next step.
+var googong = flow[10ML @ 1 ~ 2];
+var jerrabombarra = flow[4ML @ 1 ~ 1];
+var upper_molongolo = flow[6ML @ 2 ~ 3];
+
+print("Root rivers declared OK. Attempting dam1 connection next (expected to fail -- see comment above):");
+
+var queanbeyan = dam1 <- googong;
+var central_molongolo = queanbeyan + upper_molongolo + jerrabombarra;
+var lower_molongolo = dam2 <- central_molongolo;
+
+print(lower_molongolo);
