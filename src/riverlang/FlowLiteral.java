@@ -9,10 +9,9 @@ package riverlang;
  * it turns it into one of these, with:
  *     amount = 10, unit = "ML", startDay = 1, spread = 2
  *
- * The exemplar language just does [start ~ spread]@magnitude with a
- * plain number for the magnitude. Ours adds a unit onto that number
- * instead, so a flow value actually says what it means and you can't
- * mix it up with just some random number floating around.
+ * The amount carries a unit (L, kL, ML or GL) instead of being a plain
+ * number, so a flow value actually says what it means and can't get
+ * mixed up with just some random number floating around.
  */
 class FlowLiteral {
     final double amount;

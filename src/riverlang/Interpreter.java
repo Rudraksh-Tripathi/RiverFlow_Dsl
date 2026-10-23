@@ -14,8 +14,7 @@ package riverlang;
  * really the type that matters here, since it's what a flow[...]
  * literal actually turns into.
  *
- * For the rainfall side of things, it's just hardcoded for now, going
- * with the simplest option from the tutorial. Since a flow[...] literal
+ * For the rainfall side of things, it's just hardcoded for now. Since a flow[...] literal
  * already carries everything it needs (an amount, a unit, a start day
  * and a spread), rainfall here just means a few named root rivers a
  * program can refer to by name, set up below. That's just standing in
@@ -27,8 +26,8 @@ package riverlang;
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     // The global environment. A few named root rivers get loaded in
-    // here to start with (values taken from the Canberra example in the
-    // assignment brief), which is basically standing in for rainfall
+    // here to start with (values taken from the Canberra river system
+    // example), which is basically standing in for rainfall
     // data the same way a hardcoded interpreter would. Now that var
     // exists though, a program can just declare its own rivers instead
     // of relying on these.
@@ -161,7 +160,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 // dam <- upstream, applying a dam to whatever flow is coming in
                 // Can't actually evaluate this one yet since there's no way to
                 // declare a dam in the language yet. Parsing already handles it
-                // fine from week 6, evaluating it is still future work.
+                // fine, evaluating it is still future work.
                 throw new RuntimeError(expr.operator,
                         "Dam connection '<-' is parsed but not yet evaluable " +
                         "-- dam declarations haven't been added to the language yet.");

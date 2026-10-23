@@ -161,4 +161,4 @@ examples/             sample programs
 
 ## Background
 
-Built from the Lox interpreter in Robert Nystrom's [*Crafting Interpreters*](https://craftinginterpreters.com/) as part of a university programming languages course. The scanner, parser, AST and interpreter follow the structure of the book's chapters 4 to 8. The flow literal, units, `+` on flows, `<-` and the river domain are additions for this language.
+A personal project to learn how interpreters work by building a language for a real domain. It starts from the Lox interpreter in Robert Nystrom's [*Crafting Interpreters*](https://craftinginterpreters.com/), and the scanner, parser, AST and interpreter follow the structure of the book's chapters 4 to 8. The flow literal, units, `+` on flows, `<-` and the river domain are additions on top of Lox.
